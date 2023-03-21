@@ -103,8 +103,8 @@ keywordstyle=\color{myblue}\bfseries,
 % The Document
 % ------------------------------------------------------------------------------
 \title{Intuitionistic epistemic logic categorically and algebraically}
-\author{Daniel Rogozin \\ UCL}
-\date{PPLV seminar \\ The 24th of March 2023}
+\author{Daniel Rogozin \\ University College London}
+\date{Seminar on Programming principles, Logic and Verification \\ The 24th of March 2023}
 \begin{document}
 
 \maketitle
@@ -143,6 +143,7 @@ See this summary paper to have the big picture in more detail
 \end{itemize}
 
 \onslide<2->{
+\begin{small}
 See the following:
 \begin{itemize}
 \item Gianluigi Bellin, Valeria De Paiva and Eike Ritter. Extended Curry-Howard Correspondence for a Basic Constructive Modal Logic, 2003
@@ -150,6 +151,7 @@ See the following:
 \item Peter Nicholas Benton, Gavin M. Bierman, Valeria de Paiva. Computational types from a logical perspective, 1998.
 \item David Corfield. Modal homotopy type theory: The prospect of a new logic for philosophy, 2020.
 \end{itemize}
+\end{small}
 }
 
 \end{frame}
@@ -162,14 +164,81 @@ See the following:
 
 \begin{frame}
 \frametitle{The definition of the type theory}
+
+\begin{center}
+  \begin{prooftree}
+  \AxiomC{$ $}
+  \RightLabel{\scriptsize{ax}}
+  \UnaryInfC{$\Gamma, x : \varphi \vdash x : \varphi$}
+  \end{prooftree}
+  \end{center}
+
+  \begin{minipage}{0.45\textwidth}
+    \begin{prooftree}
+    \AxiomC{$\Gamma, x : \varphi \vdash M : \psi$}
+    \RightLabel{$\rightarrow_i$}
+    \UnaryInfC{$\Gamma \vdash \lambda x. M : \varphi \to \psi$}
+    \end{prooftree}
+
+    \begin{prooftree}
+    \AxiomC{ $\Gamma \vdash M : \varphi$ }
+    \AxiomC{ $\Gamma \vdash N : \psi$ }
+    \RightLabel{$\times_i$}
+    \BinaryInfC{$\Gamma \vdash \langle M, N \rangle : \varphi \times \psi$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$\Gamma \vdash M : \varphi$}
+      \RightLabel{$\bigcirc_I$}
+      \UnaryInfC{$\Gamma \vdash {\bf pure \: } \: M : \bigcirc \varphi$}
+    \end{prooftree}
+\end{minipage}%
+\hfill
+\begin{minipage}{0.45\textwidth}
+\begin{tabular}{p{\textwidth}}
+  \begin{prooftree}
+  \AxiomC{$\Gamma \vdash M : \varphi \to \psi$}
+  \AxiomC{$\Gamma \vdash N : \varphi$}
+  \RightLabel{$\rightarrow_e$}
+  \BinaryInfC{$\Gamma \vdash M N : \psi$}
+  \end{prooftree}
+
+  \begin{prooftree}
+  \AxiomC{ $\Gamma \vdash M : \varphi_1 \times \varphi_2$ }
+  \RightLabel{$\times_e$, $i = 1, 2$}
+  \UnaryInfC{$\Gamma \vdash \pi_i M : \varphi_i$}
+  \end{prooftree}
+
+  \begin{prooftree}
+    \AxiomC{$\Gamma \vdash \overrightarrow{M} : \bigcirc \overrightarrow{\varphi}$}
+    \AxiomC{$\overrightarrow{x} : \overrightarrow{\varphi} \vdash N : \psi$}
+    \RightLabel{$\text{let}_{\bigcirc}$}
+    \BinaryInfC{$\Gamma \vdash {\bf let \:} \bigcirc \overrightarrow{x} = \overrightarrow{M} {\: \bf in \: } N : \bigcirc \psi$}
+  \end{prooftree}
+\end{tabular}
+\end{minipage}%
+
 \end{frame}
 
 \begin{frame}
-\frametitle{Strong normalisation}
-\end{frame}
+\frametitle{Metatheoretic properties}
 
-\begin{frame}
-\frametitle{The Church-Rosser property}
+\begin{theorem} [D.R. 2018]
+
+\begin{enumerate}
+\item (Type preservation)
+
+If $\Gamma \vdash M : \varphi$ and $M \twoheadrightarrow_{\beta} N$, then $\Gamma \vdash N : \varphi$
+\item (Strong normalisation)
+
+Every reduction path terminates, that is, no infinite reduction sequences.
+\item (Church-Rosser)
+
+If $M \twoheadrightarrow_{\beta} N_1, N_2$, then there exists $P$ such that $N_1, N_2  \twoheadrightarrow_{\beta} P$.
+\end{enumerate}
+\end{theorem}
+
+As a corollary, every $\lambda_{{\bf IEL}^- term}$ has a unique normal form.
 \end{frame}
 
 \section{Categorical completeness}
@@ -208,11 +277,12 @@ Some examples:
 \begin{frame}
 \frametitle{General concepts: Functor}
 
-Intuitively, a functor is a morphism of category. Rigorously, let $\mathcal{C}$ and $\mathcal{D}$ be categories, a functor $F : \mathcal{C} \to \mathcal{D}$ is a ``function'' such that:
+Intuitively, a functor is a morphism of category. Rigorously, let $\mathcal{C}$ and $\mathcal{D}$ be categories, a functor ${\bf F} : \mathcal{C} \to \mathcal{D}$ is a ``function'' such that:
 \begin{itemize}
-\item Each $A \in \operatorname{Ob}(\mathcal{C})$ maps to $F A \in \operatorname{Ob}(\mathcal{D})$,
-\item Each $f : A \to B$ in $\mathcal{C}$ maps to $F f : F A \to F B$ in $\mathcal{D}$,
-\item $F (g \circ f) = F g \circ F f$ for each $f$ and $g$.
+\item Each $A \in \operatorname{Ob}(\mathcal{C})$ maps to ${\bf F} A \in \operatorname{Ob}(\mathcal{D})$,
+\item Each $f : A \to B$ in $\mathcal{C}$ maps to ${\bf F} f : {\bf F} A \to {\bf F} B$ in $\mathcal{D}$,
+\item ${\bf F} (id_A) = id_{{\bf F} A}$
+\item ${\bf F}  (g \circ f) = {\bf F} g \circ {\bf F} f$ for each $f$ and $g$.
 \end{itemize}
 
 Some examples:
@@ -228,20 +298,20 @@ Some examples:
 
 \begin{frame}
 \frametitle{General concepts: Natural transformation}
-A natural transformation is a functor morphism. Let $\mathcal{C}, \mathcal{D}$ be categories and $F, G : \mathcal{C} \to \mathcal{D}$ functors. A natural tranformation $\theta : F \Rightarrow G$ is a collection of morphisms $\theta_A : F A \to G A$ in $\mathcal{D}$ making the following square commute for each $f : A \to B$ and $A, B \in \operatorname{Ob}(\mathcal{C})$:
+A natural transformation is a functor morphism. Let $\mathcal{C}, \mathcal{D}$ be categories and ${\bf F}, {\bf G} : \mathcal{C} \to \mathcal{D}$ functors. A natural tranformation $\theta : {\bf F} \Rightarrow {\bf G}$ is a collection of morphisms $\theta_A : {\bf F} A \to {\bf G} A$ in $\mathcal{D}$ making the following square commute for each $f : A \to B$ and $A, B \in \operatorname{Ob}(\mathcal{C})$:
 \centerline{
 \xymatrix{
-F A \ar[rr]^{F f} \ar[d]_{\theta_A} && F B \ar[d]^{\theta_B} \\
-G A \ar[rr]_{G f} && G B
+{\bf F} A \ar[rr]^{{\bf F} f} \ar[d]_{\theta_A} && {\bf F} B \ar[d]^{\theta_B} \\
+{\bf G} A \ar[rr]_{{\bf G} f} && {\bf G} B
 }}
 
 \onslide<2->{
 An example:
 
-Let $det_M$ be the determinant of the $n \times n$ matrix $M \in \operatorname{GL}_n k$ with entries from a field $k$ and $k^*$ is the multiplicative group of $k$. Both $\operatorname{GL}_n$ and $*$ are functors from the category of fields to the category of groups, and $det_M : \operatorname{GL}_n k \to k^*$ is a morphism of groups and it is natural:
+Let $det_M$ be the determinant of the $n \times n$ matrix $M \in \operatorname{GL}_n k$ with entries from a field $k$ and $k^*$ is the multiplicative group of $k$. Both ${\bf GL}_n$ and $*$ are functors from the category of fields to the category of groups, and $det_M : {\bf GL}_n k \to k^*$ is a morphism of groups and it is natural:
 \centerline{
 \xymatrix{
-\operatorname{GL}_n k \ar[rr]^{f} \ar[d]_{det M} && \operatorname{GL}_n k' \ar[d]^{det M'} \\
+{\bf GL}_n k \ar[rr]^{f} \ar[d]_{det_M} && {\bf GL}_n k' \ar[d]^{det_{M'}} \\
 k^* \ar[rr]_{f^*} && {k'}^*
 }
 }
@@ -351,8 +421,8 @@ From $\varphi \to \psi$ infer $\Box \varphi \to \Box \psi$
 \onslide<2->{
 Categorically, we have an endofunctor $F : \mathcal{C} \to \mathcal{C}$ with the following natural isomorphisms (this is a \emph{strong monoidal endofunctor}):
 \begin{itemize}
-\item $m_{A, B} : F (A \times B) \cong F A \times F B$
-\item $u : F \mathds{1} \cong \mathds{1}$
+\item $m_{A, B} : {\bf F} (A \times B) \cong {\bf F} A \times {\bf F} B$
+\item $u : {\bf F} \mathds{1} \cong \mathds{1}$
 \end{itemize}
 } \onslide<3->{
 The modal lambda calculus Curry-Howard isomorphic to the intuitionstic modal logic ${\bf K}$ with $\Box$ is known to sound and complete w.r.t. CCCs with strong monoidal endofunctors.
@@ -437,7 +507,18 @@ Some references:
 
 \begin{frame}
 \frametitle{Cover systems}
-But instead of topoi we will be using a simple kind of structures called \emph{cover systems} introduced by Goldblatt.
+But instead of topoi we will be using a simple kind of structures called \emph{cover systems} introduced by Bell and then developed by Goldblatt.
+
+\onslide<2->{
+\begin{small}
+See:
+\begin{itemize}
+\item John Bell. Cover schemes, frame-valued sets and their potential uses in spacetime physics, 2003.
+\item Robert Goldblatt. Cover semantics for quantified lax logic, 2011.
+\item Robert Goldblatt. A Kripke-Joyal Semantics for Noncommutative Logic in Quantales, 2006.
+\end{itemize}
+\end{small}
+}
 \end{frame}
 
 \begin{frame}
