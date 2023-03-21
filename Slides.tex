@@ -138,8 +138,8 @@ See this summary paper to have the big picture in more detail
 
 \begin{itemize}
 \item Type theory deals with a computation every value in which is annotated with the corresponding data type. Type theory is closely connected with intuitionistic logic and constructive proofs through the Curry-Howard correspondence.
-\item One can extend Curry-Howard to intuitionistic modal logic and study modal operators within the “types-as-formulas” and “proofs-as-terms” paradigm.
-\item Here we think of modal types as abstract data types of action, which is of interest for functional programming.
+\item One can extend Curry-Howard to intuitionistic modal logic and study modal operators within the ``types-as-formulas'' and ``proofs-as-terms'' paradigm.
+\item Here we think of modal types as abstract data types of action, which are of interest for functional programming.
 \end{itemize}
 
 \onslide<2->{
@@ -164,6 +164,8 @@ See the following:
 
 \begin{frame}
 \frametitle{The definition of the type theory}
+
+The modal lambda calculus $\lambda_{{\bf IEL}^{-}}$ is axiomatised with the following inference rules.
 
 \begin{center}
   \begin{prooftree}
@@ -217,6 +219,27 @@ See the following:
   \end{prooftree}
 \end{tabular}
 \end{minipage}%
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Reduction rules}
+
+The reduction rules are defined with the following rewriting rules:
+
+\begin{enumerate}
+  \item $(\lambda x. M) N \rightarrow_{\beta} M [x := N]$.
+  \item $\pi_1 \langle M, N \rangle \rightarrow_{\beta} M$.
+  \item $\pi_2 \langle M, N \rangle \rightarrow_{\beta} N$.
+  \item ${\bf let \:} \bigcirc \vec{x}, y, \vec{z} = \vec{M}, {\bf let \:} \bigcirc \vec{w} = \vec{N} {\: \bf in \: } Q, \vec{P} {\: in \:} R \rightarrow_{\beta}
+  {\bf let \:} \bigcirc \vec{x}, \vec{w}, \vec{z} = \vec{M}, \vec{N}, \vec{P} {\: \bf in \: } R [y := Q]$.
+  \item ${\bf let \:} \bigcirc \vec{x} = {\bf pure \:} \vec{M} {\: \bf in \:} N \rightarrow_{\beta} {\bf pure \:} N [\vec{x} := \vec{M}]$.
+  \item ${\bf let \:} \bigcirc \underline{\quad} = \underline{\quad} {\: \bf in \:} M \rightarrow_{\beta} {\bf pure \:} M$, where \underline{\quad} is an empty sequence of terms.
+\end{enumerate}
+
+\onslide<2->{
+The multistep reduction $\twoheadrightarrow_{\beta}$ is reflexive-transitive closure of $\rightarrow_{\beta}$.
+}
 
 \end{frame}
 
@@ -463,6 +486,26 @@ If $M$ and $N$ are well-typed and $M =_{\beta} N$, then $[\![M]\!] = [\![N]\!]$.
 \frametitle{Categorical semantics}
 
 We skip the complete argument, but we just show how to interpret the modal inference rules in ${\bf IEL}^-$-categories:
+
+\begin{prooftree}
+\AxiomC{$[\![\Gamma \vdash M : \bigcirc \varphi]\!] = [\![M]\!] : [\![\Gamma]\!] \rightarrow [\![\varphi]\!]$}
+\UnaryInfC{$[\![\Gamma \vdash {\bf pure \: } \: M : \bigcirc \varphi]\!] = [\![M]\!] \circ \eta_{[\![\varphi]\!]} : [\![\Gamma]\!] \rightarrow {\bf F} [\![\varphi]\!]$}
+\end{prooftree}
+
+\begin{small}
+\begin{prooftree}
+  \AxiomC{$[\![\Gamma \vdash \overrightarrow{M} : \bigcirc \overrightarrow{\varphi}]\!] = ([\![M_1]\!], \dots, [\![M_n]\!]) : [\![\Gamma]\!] \rightarrow \prod \limits_{i = 1}^n {\bf F} [\![\varphi_i]\!] $}
+  \AxiomC{$[\![\overrightarrow{x} : \overrightarrow{\varphi} \vdash N : \psi]\!] = [\![N]\!] : \prod \limits_{i = 1}^n [\![\varphi_i]\!] \to [\![\psi]\!]$}
+  \BinaryInfC{$[\![\Gamma \vdash {\bf let \:} \bigcirc \overrightarrow{x} = \overrightarrow{M} {\: \bf in \: } N : \bigcirc \psi ]\!] = {\bf F}([\![N]\!]) \circ m_{[\![\varphi_1]\!], \dots, [\![\varphi_n]\!]} \circ ([\![M_1]\!], \dots, [\![M_n]\!]) : [\![\Gamma]\!] \rightarrow {\bf F} [\![\psi]\!]$}
+\end{prooftree}
+\end{small}
+
+\onslide<2->{
+The interpretation of the second inference rule could be also described via the (slightly modified) quote from Hamlet:
+\begin{center}
+\emph{Therefore, since brevity is the soul of wit \\ and tediousness the limbs and outward flourishes, \\ I won't be brief.}
+\end{center}}
+
 \end{frame}
 
 \section{Kripke-Joyal semantics}
@@ -483,7 +526,7 @@ $a \wedge \bigvee \limits_{i \in I} a_i = \bigvee \limits_{i \in I} (a \wedge a_
 Heyting algebras and locales are about:
 \begin{itemize}
 \item Heyting algebras provide algebraic semantics for intuitionistic and intermediate logics,
-\item Locales are a lattice-theoretic approximation of a topological spaces,
+\item Locales are a lattice-theoretic approximation of topological spaces,
 \item Subobject algebras in topoi
 \end{itemize}
 }
@@ -523,14 +566,37 @@ See:
 
 \begin{frame}
 \frametitle{Some background: nuclei and prenuclei}
+
+A \emph{prenucleus} on a Heyting algebra is a monotone inflationary map that distibutes over finite infima, whereas a \emph{nucleus} is an idempotent prenucleus.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Kripke-Joyal semantics for predicate intuitionistic modal logics}
 \end{frame}
 
 \begin{frame}
 \frametitle{The representation theorem for locales with modal operators}
-\end{frame}
 
-\begin{frame}
-\frametitle{Kripke-Joyal semantics for predicate intuitionistic epistemic modal logics}
+\begin{theorem} (D. R. 2020)
+Every localic prenuclear algebra is isomorphic to the complex algebra of some modal cover scheme.
+\end{theorem}
+
+\begin{theorem} (D. R. 2020)
+The class of prenuclear algebras is closed under Dedekind-MacNeille completitions.
+\end{theorem}
+
+These theorems imply the following corollaries:
+\onslide<2->{
+\begin{corollary} (D. R. 2020)
+
+\begin{enumerate}
+\item Every prenuclear algebra is embeddable to the complex algebra of some modal cover scheme.
+\item ${\bf QIEL}^{-}$ is sound and complete w.r.t. its cover schemes.
+\end{enumerate}
+}
+\end{corollary}
+
 \end{frame}
 
 \end{document}
