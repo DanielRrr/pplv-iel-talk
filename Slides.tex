@@ -220,7 +220,7 @@ Some examples:
 \item The powerset functor $\mathcal{P} : {\bf Set} \to {\bf Set}$ such that $\mathcal{P} : A \mapsto 2^{A}$,
 \item The abelianisation functor $Ab : {\bf Group} \to {\bf Ab}$ such that $Ab : G \mapsto G / [G, G]$,
 \item The spectrum functor $\operatorname{Spec} : {\bf Ring}^{op} \to {\bf Top}$ that maps every commutative ring to its Zariski space,
-\item ${\bf Field} \to {\bf Ring}$ such that $K \mapsto K[X]$,
+\item ${\bf Field} \to {\bf Ring}$ such that $k \mapsto k[X]$,
 \item $\pi_1 : {\bf Top}_* \to {\bf Group}$ maps every topological space with a base point to its fundamental group, for example, $\pi_1(S) = \mathbb{Z}$ (up to isomorphism).
 \item etc.
 \end{itemize}
@@ -238,11 +238,11 @@ G A \ar[rr]_{G f} && G B
 \onslide<2->{
 An example:
 
-Let $det_M$ be the determinant of the $n \times n$ matrix $M \in \operatorname{GL}_n K$ with entries from a field $K$ and $K^*$ is the multiplicative group of $K$. Both $\operatorname{GL}_n$ and $*$ are functors from the category of fields to the category of groups, and $det_M : \operatorname{GL}_n K \to K^*$ is a morphism of groups and it is natural:
+Let $det_M$ be the determinant of the $n \times n$ matrix $M \in \operatorname{GL}_n k$ with entries from a field $k$ and $k^*$ is the multiplicative group of $k$. Both $\operatorname{GL}_n$ and $*$ are functors from the category of fields to the category of groups, and $det_M : \operatorname{GL}_n k \to k^*$ is a morphism of groups and it is natural:
 \centerline{
 \xymatrix{
-\operatorname{GL}_n K \ar[rr]^{f} \ar[d]_{det M} && \operatorname{GL}_n K' \ar[d]^{det M'} \\
-K^* \ar[rr]_{f^*} && {K'}^*
+\operatorname{GL}_n k \ar[rr]^{f} \ar[d]_{det M} && \operatorname{GL}_n k' \ar[d]^{det M'} \\
+k^* \ar[rr]_{f^*} && {k'}^*
 }
 }
 }
@@ -304,7 +304,7 @@ In particular, simply typed lambda calculus with types $\to$ and $\times$ has th
 \begin{prooftree}
 \AxiomC{$[\![\Gamma \vdash M : \varphi \to \psi]\!] = [\![M]\!] : [\![\Gamma]\!] \rightarrow [\![\psi]\!]^{[\![\varphi]\!]}$}
 \AxiomC{$[\![\Gamma \vdash N : \varphi]\!] = [\![N]\!] : [\![\Gamma]\!] \rightarrow [\![\varphi]\!]$}
-\BinaryInfC{$[\![\Gamma \vdash (M N) : \psi]\!] = [\![\Gamma]\!] \xrightarrow{([\![M]\!], [\![N]\!])} [\![B]\!]^{[\![\varphi]\!]} \times [\![\varphi]\!] \xrightarrow{ev} [\![\psi]\!] $}
+\BinaryInfC{$[\![\Gamma \vdash (M N) : \psi]\!] = [\![\Gamma]\!] \xrightarrow{([\![M]\!], [\![N]\!])} [\![\psi]\!]^{[\![\varphi]\!]} \times [\![\varphi]\!] \xrightarrow{ev} [\![\psi]\!] $}
 \end{prooftree}
 
 \begin{prooftree}
@@ -351,8 +351,8 @@ From $\varphi \to \psi$ infer $\Box \varphi \to \Box \psi$
 \onslide<2->{
 Categorically, we have an endofunctor $F : \mathcal{C} \to \mathcal{C}$ with the following natural isomorphisms (this is a \emph{strong monoidal endofunctor}):
 \begin{itemize}
-\item $F (A \times B) \cong F A \times F B$
-\item $F \mathds{1} \cong \mathds{1}$
+\item $m_{A, B} : F (A \times B) \cong F A \times F B$
+\item $u : F \mathds{1} \cong \mathds{1}$
 \end{itemize}
 } \onslide<3->{
 The modal lambda calculus Curry-Howard isomorphic to the intuitionstic modal logic ${\bf K}$ with $\Box$ is known to sound and complete w.r.t. CCCs with strong monoidal endofunctors.
@@ -366,25 +366,82 @@ See
 \end{frame}
 
 \begin{frame}
+\frametitle{${\bf IEL}^-$ as a natural transformation}
+
+To interpret the ${\bf IEL}^-$ we need the natural transformation $\eta : Id_{\mathcal{C}} \Rightarrow {\bf F}$, where $\mathcal{C}$ is a CCC and $F$ is a strong monoidal endofunction with the additional principles:
+
+\begin{enumerate}
+\item $u = \eta_{\mathds{1}}$
+\item For each $A, B \in \operatorname{Ob}(\mathcal{C})$:
+\centerline{
+\xymatrix{
+A \times B \ar[rr]^{\eta_A \times \eta_B} \ar[drr]_{\eta_{A \times B}} && {\bf F} A \times {\bf F} B \ar[d]^{m_{A, B}} \\
+&& {\bf F} (A \times B)
+}}
+\end{enumerate}
+\onslide<2->{
+An \emph{${\bf IEL}^{-}$-category} is a triple $(\mathcal{C}, {\bf F}, \eta)$, where $\mathcal{C}$ is a CCC, ${\bf F}$ is a strong monoidal endofunctor and $\eta : Id_{\mathcal{C}} \Rightarrow {\bf F}$ is a natural transformation with the additional extra-principles as above.}
+\onslide<3->{
+\begin{theorem} [D. R. 2018]
+
+If $M$ and $N$ are well-typed and $M =_{\beta} N$, then $[\![M]\!] = [\![N]\!]$. That is, $\lambda_{{\bf IEL}^-}$ is sound and complete w.r.t. ${\bf IEL}^{-}$-categories.
+\end{theorem}
+}
+\end{frame}
+
+\begin{frame}
 \frametitle{Categorical semantics}
+
+We skip the complete argument, but we just show how to interpret the modal inference rules in ${\bf IEL}^-$-categories:
 \end{frame}
 
 \section{Kripke-Joyal semantics}
 
 \begin{frame}
 \frametitle{Some background: Heyting algebras and locales}
+Recall that a Heyting algebra is a bounded distributive lattice $\mathcal{H} = (H, \wedge, \vee, \rightarrow, 0, 1)$ with the operation $\rightarrow$ satisfying for all $a, b, c \in H$:
+\begin{center}
+$a \wedge b \leq c$ iff $a \leq b \rightarrow c$
+\end{center}
+
+A locale is a complete lattice $\mathcal{L} = (L, \wedge, \bigvee)$ satisfying for all $a \in L$ and for each indexed family $(a_i)_{i \in I}$:
+\begin{center}
+$a \wedge \bigvee \limits_{i \in I} a_i = \bigvee \limits_{i \in I} (a \wedge a_i)$
+\end{center}
+
+\onslide<2->{
+Heyting algebras and locales are about:
+\begin{itemize}
+\item Heyting algebras provide algebraic semantics for intuitionistic and intermediate logics,
+\item Locales are a lattice-theoretic approximation of a topological spaces,
+\item Subobject algebras in topoi
+\end{itemize}
+}
+
+\onslide<3->{
+\begin{small}
+Some references:
+\begin{itemize}
+\item Andre Joyal and Myles Tierney. An extension of the Galois theory of Grothendieck, 1984.
+\item Francis Borceux. Handbook of Categorical Algebra: Volume 3, Sheaf Theory, 1994.
+\item Peter Johnstone. Stone spaces, 1984.
+\item Leo Esakia. Heyting algebras: Duality theory, 2019.
+\end{itemize}
+\end{small}
+}
 \end{frame}
 
 \begin{frame}
-\frametitle{Some background: nuclei and prenuclei}
-\end{frame}
-
-\begin{frame}
-\frametitle{Kripke-Joyal semantics generally}
+\frametitle{Kripke-Joyal semantics: handwaving motivation}
 \end{frame}
 
 \begin{frame}
 \frametitle{Cover systems}
+But instead of topoi we will be using a simple kind of structures called \emph{cover systems} introduced by Goldblatt.
+\end{frame}
+
+\begin{frame}
+\frametitle{Some background: nuclei and prenuclei}
 \end{frame}
 
 \begin{frame}
