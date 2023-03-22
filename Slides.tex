@@ -557,22 +557,9 @@ Some references:
 
 \begin{frame}
 \frametitle{Kripke-Joyal semantics: handwaving motivation}
-\end{frame}
 
-\begin{frame}
-\frametitle{Cover systems}
-But instead of topoi we will be using a simple kind of structures called \emph{cover systems} introduced by Bell and then developed by Goldblatt.
 
-\onslide<2->{
-\begin{small}
-See:
-\begin{itemize}
-\item John Bell. Cover schemes, frame-valued sets and their potential uses in spacetime physics, 2003.
-\item Robert Goldblatt. Cover semantics for quantified lax logic, 2011.
-\item Robert Goldblatt. A Kripke-Joyal Semantics for Noncommutative Logic in Quantales, 2006.
-\end{itemize}
-\end{small}
-}
+
 \end{frame}
 
 \begin{frame}
@@ -592,7 +579,8 @@ Some examples of nuclei (and then prenuclei):
 \begin{itemize}
 \item Let $\mathcal{H}$ be a Heyting algebra, then an operator $j : \mathcal{H} \to \mathcal{H}$ such that $j : a \mapsto \neg \neg a$ is a nucleus,
 \item More generally, an operator $j : \mathcal{H} \to \mathcal{H}$ s.t. $j : a \mapsto (b \to a) \to a$ is a nucleus on $\mathcal{H}$,
-\item We will see a couple of more examples further.
+\item Actually, one can think of the ${\bf IEL}^{-}$ modality as a kind of a prenuclear operator,
+\item We will see a couple of more examples of nuclei further.
 \end{itemize}}
 \onslide<3->{
 \begin{small}
@@ -607,7 +595,95 @@ Some references
 \end{frame}
 
 \begin{frame}
-\frametitle{Kripke-Joyal semantics for predicate intuitionistic modal logics}
+\frametitle{Cover systems}
+But instead of topoi we will be using a simple kind of structures called \emph{cover systems} introduced by Bell and then developed by Goldblatt.
+
+Let $\mathcal{P} = (P, \leq)$ be a poset, then a cover scheme is a tuple $\mathcal{C} = (\mathcal{P}, \operatorname{Cov})$, where $\operatorname{Cov}(x) \subseteq 2^P$ is the collection of \emph{covers of $x$} or \emph{$x$-covers} such that:
+\begin{itemize}
+\item For all $x \in \mathcal{P}$ there exists $C \subseteq \mathcal{P}$ such that $C \in \operatorname{Cov}(x)$ and $C \subseteq \uparrow x$,
+\item If $C \in \operatorname{Cov}(x)$ and for all $y \in \operatorname{Cov}(C_y)$, then $\bigcup \limits_{y \in C} C_y$,
+\item If $x \leq y$, then every $x$-cover can be refined to some $y$-cover, that is, if $C \in \operatorname{Cov}(x)$, then $C' \in \operatorname{Cov}(y)$ such that $C' \subseteq \uparrow C$,
+\item Every $x$-cover is included in $\uparrow x$.
+\end{itemize}
+\onslide<2->{
+An important point, an operator $j : 2^\mathcal{P} \to 2^\mathcal{P}$:
+\begin{center}
+$j A = \{ x \in \mathcal{P} \: | \: \exists C \subseteq \mathcal{P} \: C \in \operatorname{Cov}(x) \: \& \: C \subseteq A\}$
+\end{center}
+is a nucleus on a locale $\operatorname{Up}(\mathcal{P})$, so $j$-closed upward closed subsets of $\mathcal{P}$ form a sublocale of $\operatorname{Up}(\mathcal{P})$. Moreover, every locale is representable as a locale of localised subsets of some cover system (that we shall denote as $\operatorname{Loc}(\mathcal{C})$).}
+
+\onslide<3->{
+\begin{small}
+See:
+\begin{itemize}
+\item John Bell. Cover schemes, frame-valued sets and their potential uses in spacetime physics, 2003.
+\item Robert Goldblatt. Cover semantics for quantified lax logic, 2011.
+\end{itemize}
+\end{small}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Intuitionistic predicate logics}
+
+In this section, we consider one-sorted first-order language with no function symbols. Intuitionistic predicate logic is defined standardly with the following axiom schemes and rules:
+\begin{enumerate}
+  \item $\varphi \to (\psi \to \varphi)$
+  \item $(\varphi \to (\psi \to \theta)) \to ((\varphi \to \psi) \to (\varphi \to \theta))$
+  \item $\varphi_1 \land \varphi_2 \to \varphi_i$, for $i = 1,2$,
+  \item $\varphi \to (\psi \to \varphi \land \psi)$
+  \item $\varphi_i \to \varphi_1 \lor \varphi_2$, for $i = 1,2$,
+  \item $(\varphi \to \theta) \to ((\psi \to \theta) \to (\varphi \lor \psi \to \theta))$
+  \item $\bot \to \varphi$,
+  \item $\forall x \varphi \to \varphi (t/x)$,
+  \item $\varphi (t/x) \to \exists x \varphi$,
+  \item The inference rules are Modus Ponens and Bernays rules.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Kripke-Joyal semantics for predicate intuitionistic logics}
+
+A \emph{cover scheme model} is a structure $\mathcal{M} = (\mathcal{P}, \operatorname{Cov}, U, |.|)$, where $(\mathcal{P}, \operatorname{Cov})$ is a cover scheme, $U \neq \emptyset$ is a set of individuals and $|.|$ is an interpretation such that:
+\begin{itemize}
+\item If $x$ is a free variable, then $|x|_{\mathcal{M}} \in U$,
+\item If $P$ is an $n$-ary predicate symbol, then $|P|^{\mathcal{M}} : U^n \to \operatorname{Loc}(\mathcal{P}, \operatorname{Cov})$
+\end{itemize}
+\onslide<2->{
+The truth definition is standard (in terms of Kripke-Joyal semantics):
+\begin{itemize}
+\item $\mathcal{M}, x \Vdash P(v_1, \dots, v_n)$ iff $x \in |P|^{\mathcal{M}}(|v_1|_{\mathcal{M}}, \dots, |v_n|_{\mathcal{M}})$,
+\item $\mathcal{M}, x \Vdash \bot$ iff $\emptyset \in \operatorname{Cov}(x)$
+\item $\mathcal{M}, x \Vdash \varphi \land \psi$ iff $\mathcal{M}, x \Vdash \varphi$ and $\mathcal{M}, x \Vdash \psi$,
+\item $\mathcal{M}, x \Vdash \varphi \lor \psi$ iff there exists $C \in \operatorname{Cov}(x)$ such that for each $y \in C$ $\mathcal{M}, y \Vdash \varphi$ or $\mathcal{M}, y \Vdash \psi$,
+\item $\mathcal{M}, x \Vdash \varphi \to \psi$ iff for each $y \geq x$ $\mathcal{M}, y  \Vdash \varphi$ implies $\mathcal{M}, y \Vdash \psi$,
+\item $\mathcal{M}, x \Vdash \forall v \varphi$ iff $\mathcal{M}, x \Vdash \varphi (v := d)$ for each individual $u \in U$,
+\item $\mathcal{M}, x \Vdash \exists v \varphi$ iff there exists $C \in \operatorname{Cov}(x)$ and $u \in U$ such that for each $y \in C$ $\mathcal{M}, y \Vdash \varphi(v := u)$.
+\item $\mathcal{M} \Vdash \varphi$ iff for each $x \in \mathcal{M}$ $\mathcal{M}, x Vdash \varphi$.
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Kripke-Joyal semantics for predicate intuitionistic logics algebraically}
+
+With each formula we can associate its truth set $[\![\varphi]\!]_{\mathcal{M}} = \{ x \in \mathcal{P} \: | \: \mathcal{M}, x \Vdash \varphi \}$, so one can show that $[\![.]\!]$ commutes with algebraic operations on the locale of localised upsets:
+\begin{itemize}
+\item $[\![\bot]\!]_{\mathcal{M}} = j \emptyset$
+\item $[\![\varphi \land \psi]\!]_{\mathcal{M}} = [\![\varphi]\!]_{\mathcal{M}} \cap [\![\psi]\!]_{\mathcal{M}}$
+\item $[\![\varphi \lor \psi]\!]_{\mathcal{M}} = j([\![\varphi]\!]_{\mathcal{M}} \cup [\![\psi]\!]_{\mathcal{M}})$
+\item $[\![\varphi \to \psi]\!]_{\mathcal{M}} = [\![\varphi]\!]_{\mathcal{M}} \to [\![\psi]\!]_{\mathcal{M}}$
+\item $[\![\forall v \varphi]\!]_{\mathcal{M}} = \bigcap \limits_{u \in U} [\![\varphi(v := u)]\!]_{\mathcal{M}}$
+\item $[\![\exists v \varphi]\!]_{\mathcal{M}} = j (\bigcup \limits_{u \in U} [\![\varphi(v := u)]\!]_{\mathcal{M}})$
+\end{itemize}
+
+\begin{theorem} [Cover scheme analogue of Goedel completeness]
+$IPL \vdash \varphi$ iff $\mathcal{M} \Vdash \varphi$ or, equivalently, $[\![\varphi]\!] = \top$ for any model $\mathcal{M}$.
+\end{theorem}
+
+The proof is based on embedding the Lindenbaum-Tarski algebra of $IPL$ to a locale, which is isomorphic to the locale of localised upsets of some cover scheme.
+
 \end{frame}
 
 \begin{frame}
