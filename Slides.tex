@@ -660,7 +660,7 @@ The truth definition is standard (in terms of Kripke-Joyal semantics):
 \item $\mathcal{M}, x \Vdash \varphi \to \psi$ iff for each $y \geq x$ $\mathcal{M}, y  \Vdash \varphi$ implies $\mathcal{M}, y \Vdash \psi$,
 \item $\mathcal{M}, x \Vdash \forall v \varphi$ iff $\mathcal{M}, x \Vdash \varphi (v := d)$ for each individual $u \in U$,
 \item $\mathcal{M}, x \Vdash \exists v \varphi$ iff there exists $C \in \operatorname{Cov}(x)$ and $u \in U$ such that for each $y \in C$ $\mathcal{M}, y \Vdash \varphi(v := u)$.
-\item $\mathcal{M} \Vdash \varphi$ iff for each $x \in \mathcal{M}$ $\mathcal{M}, x Vdash \varphi$.
+\item $\mathcal{M} \Vdash \varphi$ iff for each $x \in \mathcal{M}$ $\mathcal{M}, x \Vdash \varphi$.
 \end{itemize}
 }
 \end{frame}
@@ -679,7 +679,7 @@ With each formula we can associate its truth set $[\![\varphi]\!]_{\mathcal{M}} 
 \end{itemize}
 
 \begin{theorem} [Cover scheme analogue of Goedel completeness]
-$IPL \vdash \varphi$ iff $\mathcal{M} \Vdash \varphi$ or, equivalently, $[\![\varphi]\!] = \top$ for any model $\mathcal{M}$.
+$IPL \vdash \varphi$ iff $\mathcal{M} \Vdash \varphi$ or, equivalently, $[\![\varphi]\!]_{\mathcal{M}} = \top$ for any model $\mathcal{M}$.
 \end{theorem}
 
 The proof is based on embedding the Lindenbaum-Tarski algebra of $IPL$ to a locale, which is isomorphic to the locale of localised upsets of some cover scheme.
