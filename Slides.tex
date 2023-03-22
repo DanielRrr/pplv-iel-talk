@@ -126,9 +126,11 @@ keywordstyle=\color{myblue}\bfseries,
 \end{itemize}
 \onslide<2->{
 See this summary paper to have the big picture in more detail
+\begin{small}
 \begin{itemize}
 \item Frank Wolter and Michael Zakharyaschev. Intuitionistic Modal Logic, 1999.
 \end{itemize}
+\end{small}
 }
 \end{frame}
 
@@ -283,9 +285,9 @@ Recall that a category $\mathcal{C}$ consists of:
 \item A class of objects $\operatorname{Ob}(\mathcal{C}) = \{ A, B, C, \dots \}$,
 \item A class of morphisms $\mathcal{C}(A, B)$ for each $A, B \in \operatorname{Ob}(\mathcal{C})$, where $f : A \to B$ iff $f \in \mathcal{C}(A, B)$,
 \item For $f : A \to B$ and $g : B \to C$, then $g \circ f : A \to C$ and $h \circ (g \circ f) = (h \circ g) \circ f$ for each $f, g, h$ having an appropriate domain and codomain,
-\item For each $A, B \in \operatorname{Ob}(\mathcal{C})$ we have identity morphisms such that for each $f : A \to B$ $f \circ id_A = f$ and $id_B \circ g = g$.
+\item For each $A, B \in \operatorname{Ob}(\mathcal{C})$ we have identity morphisms such that for each $f : A \to B$ $f \circ id_A = f$ and $id_B \circ f = f$.
 \end{itemize}
-
+\onslide<2->{
 Some examples:
 \begin{itemize}
 \item ${\bf Set}$, the category of all sets and all functions betweem them,
@@ -294,7 +296,7 @@ Some examples:
 \item $(P, \leq)$, any poset where $a \to b$ exists iff $a \leq b$,
 \item Any monoid (as well as a group) is a category, where $\operatorname{Ob}(\mathcal{C})$ is a singleton set (Cayley's theorem).
 \item etc.
-\end{itemize}
+\end{itemize}}
 \end{frame}
 
 \begin{frame}
@@ -307,7 +309,7 @@ Intuitively, a functor is a morphism of category. Rigorously, let $\mathcal{C}$ 
 \item ${\bf F} (id_A) = id_{{\bf F} A}$
 \item ${\bf F}  (g \circ f) = {\bf F} g \circ {\bf F} f$ for each $f$ and $g$.
 \end{itemize}
-
+\onslide<2->{
 Some examples:
 \begin{itemize}
 \item The powerset functor $\mathcal{P} : {\bf Set} \to {\bf Set}$ such that $\mathcal{P} : A \mapsto 2^{A}$,
@@ -316,7 +318,7 @@ Some examples:
 \item ${\bf Field} \to {\bf Ring}$ such that $k \mapsto k[X]$,
 \item $\pi_1 : {\bf Top}_* \to {\bf Group}$ maps every topological space with a base point to its fundamental group, for example, $\pi_1(S) = \mathbb{Z}$ (up to isomorphism).
 \item etc.
-\end{itemize}
+\end{itemize}}
 \end{frame}
 
 \begin{frame}
@@ -331,7 +333,7 @@ A natural transformation is a functor morphism. Let $\mathcal{C}, \mathcal{D}$ b
 \onslide<2->{
 An example:
 
-Let $det_M$ be the determinant of the $n \times n$ matrix $M \in \operatorname{GL}_n k$ with entries from a field $k$ and $k^*$ is the multiplicative group of $k$. Both ${\bf GL}_n$ and $*$ are functors from the category of fields to the category of groups, and $det_M : {\bf GL}_n k \to k^*$ is a morphism of groups and it is natural:
+Let $det_M$ be the determinant of an $n \times n$ matrix $M \in {\bf GL}_n k$ with entries from a field $k$ and let $k^*$ be the multiplicative group of $k$. Both ${\bf GL}_n$ and $*$ are functors from the category of fields to the category of groups, and $det_M : {\bf GL}_n k \to k^*$ is a morphism of groups and it is natural:
 \centerline{
 \xymatrix{
 {\bf GL}_n k \ar[rr]^{f} \ar[d]_{det_M} && {\bf GL}_n k' \ar[d]^{det_{M'}} \\
@@ -449,19 +451,29 @@ Categorically, we have an endofunctor $F : \mathcal{C} \to \mathcal{C}$ with the
 \end{itemize}
 } \onslide<3->{
 The modal lambda calculus Curry-Howard isomorphic to the intuitionstic modal logic ${\bf K}$ with $\Box$ is known to sound and complete w.r.t. CCCs with strong monoidal endofunctors.
-
+\begin{small}
 See
 \begin{itemize}
 \item Gianluigi Bellin, Valeria De Paiva and Eike Ritter. Extended Curry-Howard Correspondence for a Basic Constructive Modal Logic, 2003
 \item Y. Kakutani. Call-by-name and call-by-value in normal modal logic, 2007.
 \end{itemize}
+\end{small}
 }
 \end{frame}
 
 \begin{frame}
 \frametitle{${\bf IEL}^-$ as a natural transformation}
 
-To interpret the ${\bf IEL}^-$ we need the natural transformation $\eta : Id_{\mathcal{C}} \Rightarrow {\bf F}$, where $\mathcal{C}$ is a CCC and $F$ is a strong monoidal endofunction with the additional principles:
+To interpret the ${\bf IEL}^-$ modality, we need the natural transformation $\eta : Id_{\mathcal{C}} \Rightarrow {\bf F}$ (where $\mathcal{C}$ is a CCC):
+
+\centerline{
+\xymatrix{
+A \ar[rr]^{f} \ar[d]_{\eta_A} && B \ar[d]^{\eta_B} \\
+{\bf F} A \ar[rr]_{{\bf F} f} && {\bf F} B
+}
+}
+\onslide<2->{
+But $F$ should be a strong monoidal endofunction with the additional principles:
 
 \begin{enumerate}
 \item $u = \eta_{\mathds{1}}$
@@ -470,21 +482,21 @@ To interpret the ${\bf IEL}^-$ we need the natural transformation $\eta : Id_{\m
 \xymatrix{
 A \times B \ar[rr]^{\eta_A \times \eta_B} \ar[drr]_{\eta_{A \times B}} && {\bf F} A \times {\bf F} B \ar[d]^{m_{A, B}} \\
 && {\bf F} (A \times B)
-}}
+}}}
 \end{enumerate}
-\onslide<2->{
-An \emph{${\bf IEL}^{-}$-category} is a triple $(\mathcal{C}, {\bf F}, \eta)$, where $\mathcal{C}$ is a CCC, ${\bf F}$ is a strong monoidal endofunctor and $\eta : Id_{\mathcal{C}} \Rightarrow {\bf F}$ is a natural transformation with the additional extra-principles as above.}
 \onslide<3->{
-\begin{theorem} [D. R. 2018]
-
-If $M$ and $N$ are well-typed and $M =_{\beta} N$, then $[\![M]\!] = [\![N]\!]$. That is, $\lambda_{{\bf IEL}^-}$ is sound and complete w.r.t. ${\bf IEL}^{-}$-categories.
-\end{theorem}
-}
+An \emph{${\bf IEL}^{-}$-category} is a triple $(\mathcal{C}, {\bf F}, \eta)$, where $\mathcal{C}$ is a CCC, ${\bf F}$ is a strong monoidal endofunctor and $\eta : Id_{\mathcal{C}} \Rightarrow {\bf F}$ is a natural transformation with the additional extra-principles as above.}
 \end{frame}
 
 \begin{frame}
 \frametitle{Categorical semantics}
 
+\begin{theorem} [D. R. 2018]
+
+If $M$ and $N$ are well-typed and $M =_{\beta} N$, then $[\![M]\!] = [\![N]\!]$. That is, $\lambda_{{\bf IEL}^-}$ is sound and complete w.r.t. ${\bf IEL}^{-}$-categories.
+\end{theorem}
+
+\onslide<2->{
 We skip the complete argument, but we just show how to interpret the modal inference rules in ${\bf IEL}^-$-categories:
 
 \begin{prooftree}
@@ -499,8 +511,8 @@ We skip the complete argument, but we just show how to interpret the modal infer
   \BinaryInfC{$[\![\Gamma \vdash {\bf let \:} \bigcirc \overrightarrow{x} = \overrightarrow{M} {\: \bf in \: } N : \bigcirc \psi ]\!] = {\bf F}([\![N]\!]) \circ m_{[\![\varphi_1]\!], \dots, [\![\varphi_n]\!]} \circ ([\![M_1]\!], \dots, [\![M_n]\!]) : [\![\Gamma]\!] \rightarrow {\bf F} [\![\psi]\!]$}
 \end{prooftree}
 \end{small}
-
-\onslide<2->{
+}
+\onslide<3->{
 The interpretation of the second inference rule could be also described via the (slightly modified) quote from Hamlet:
 \begin{center}
 \emph{Therefore, since brevity is the soul of wit \\ and tediousness the limbs and outward flourishes, \\ I won't be brief.}
@@ -512,12 +524,12 @@ The interpretation of the second inference rule could be also described via the 
 
 \begin{frame}
 \frametitle{Some background: Heyting algebras and locales}
-Recall that a Heyting algebra is a bounded distributive lattice $\mathcal{H} = (H, \wedge, \vee, \rightarrow, 0, 1)$ with the operation $\rightarrow$ satisfying for all $a, b, c \in H$:
+Recall that a \emph{Heyting algebra} is a bounded distributive lattice $\mathcal{H} = (H, \wedge, \vee, \rightarrow, 0, 1)$ with the operation $\rightarrow$ satisfying for all $a, b, c \in H$:
 \begin{center}
 $a \wedge b \leq c$ iff $a \leq b \rightarrow c$
 \end{center}
 
-A locale is a complete lattice $\mathcal{L} = (L, \wedge, \bigvee)$ satisfying for all $a \in L$ and for each indexed family $(a_i)_{i \in I}$:
+A \emph{locale} (\emph{frame}, \emph{complete Heyting algebra}) is a complete lattice $\mathcal{L} = (L, \wedge, \bigvee)$ satisfying for all $a \in L$ and for each indexed family $(a_i)_{i \in I}$:
 \begin{center}
 $a \wedge \bigvee \limits_{i \in I} a_i = \bigvee \limits_{i \in I} (a \wedge a_i)$
 \end{center}
@@ -527,7 +539,7 @@ Heyting algebras and locales are about:
 \begin{itemize}
 \item Heyting algebras provide algebraic semantics for intuitionistic and intermediate logics,
 \item Locales are a lattice-theoretic approximation of topological spaces,
-\item Subobject algebras in topoi
+\item Subobject algebras in topoi are Heyting algebras (and locales less often)
 \end{itemize}
 }
 
@@ -537,7 +549,6 @@ Some references:
 \begin{itemize}
 \item Andre Joyal and Myles Tierney. An extension of the Galois theory of Grothendieck, 1984.
 \item Francis Borceux. Handbook of Categorical Algebra: Volume 3, Sheaf Theory, 1994.
-\item Peter Johnstone. Stone spaces, 1984.
 \item Leo Esakia. Heyting algebras: Duality theory, 2019.
 \end{itemize}
 \end{small}
@@ -569,6 +580,30 @@ See:
 
 A \emph{prenucleus} on a Heyting algebra is a monotone inflationary map that distibutes over finite infima, whereas a \emph{nucleus} is an idempotent prenucleus.
 
+(Pre)nuclei are about:
+\begin{itemize}
+\item Heyting subalgebra and sublocale characterisation,
+\item a Lawvere-Tierney topology that axiomatises the notion of local truth and also allows defining a Grothendieck topology on a presheaf topos equivalently,
+\item One can think of prenuclei as a weaker version of a Lawvere-Tierney topology,
+\item Prenuclei are used for characterising lattices of nuclei on a locale.
+\end{itemize}
+\onslide<2->{
+Some examples of nuclei (and then prenuclei):
+\begin{itemize}
+\item Let $\mathcal{H}$ be a Heyting algebra, then an operator $j : \mathcal{H} \to \mathcal{H}$ such that $j : a \mapsto \neg \neg a$ is a nucleus,
+\item More generally, an operator $j : \mathcal{H} \to \mathcal{H}$ s.t. $j : a \mapsto (b \to a) \to a$ is a nucleus on $\mathcal{H}$,
+\item We will see a couple of more examples further.
+\end{itemize}}
+\onslide<3->{
+\begin{small}
+Some references
+\begin{itemize}
+\item Robert Goldblatt. Grothendieck Topology as Geometric Modality, 1981.
+\item Peter Johnstone. Stone spaces, 1984.
+\item Martin Escardo. Joins in the frame of nuclei, 2003.
+\end{itemize}
+\end{small}}
+
 \end{frame}
 
 \begin{frame}
@@ -598,5 +633,7 @@ These theorems imply the following corollaries:
 \end{corollary}
 
 \end{frame}
+
+\section{Thank you so much indeed!}
 
 \end{document}
