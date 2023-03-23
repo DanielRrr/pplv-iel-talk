@@ -104,7 +104,7 @@ keywordstyle=\color{myblue}\bfseries,
 % ------------------------------------------------------------------------------
 \title{Intuitionistic epistemic logic categorically and algebraically}
 \author{Daniel Rogozin \\ University College London}
-\date{Seminar on Programming principles, Logic and Verification \\ The 24th of March 2023}
+\date{Seminar on Programming principles, Logic and Verification \\ The 24th of March 2023 \\ Slides available at \url{https://github.com/DanielRrr/pplv-iel-talk} }
 \begin{document}
 
 \maketitle
@@ -112,7 +112,30 @@ keywordstyle=\color{myblue}\bfseries,
 \section{Introduction}
 
 \begin{frame}
-\frametitle{Intuitionistic modal logic: the big picture}
+\frametitle{Intro}
+
+This talk is based on the author's master thesis defended at Lomonosov Moscow State University (the faculty of philosophy, the department of logic) under supervision by Vladimir Vasyukov and Vladimir Krupski in 2018. See the extended version of the thesis published in Journal of Logic and Computation:
+
+\begin{itemize}
+\item Daniel Rogozin. Categorical and algebraic aspects of the intuitionistic modal logic ${\bf IEL}^-$ and its predicate extensions, 2021.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Outline}
+
+\begin{enumerate}
+\item Intuitionistic modal logic: general intro
+\item Intuitionistic modality type-theoretically
+\item Type-theoretic approach to intuitionistic belief logic (which is rather about functional programming than beliefs)
+\item Categorical semantics
+\item Kripke-Joyal semantics and modal Heyting algebra representations
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Intuitionistic modal logic: a bird's eye view}
 \begin{itemize}
 \item As it is well known, modal logic extends classical logic with modal operators.
 \item Applications: topology, proof theory, formal verification, ontologies, etc.
@@ -162,12 +185,109 @@ See the following:
 
 \begin{frame}
 \frametitle{Bridges with functional programming}
+
+We discuss monadic computation first of all.
+\begin{itemize}
+\item Monads in functional programming describe sequential computations categorically,
+\item In such languages as Haskell, a monad is a method of structuring a computation as a linearly connected sequence of actions (a \emph{pipeline}) within such types as the list or the input/output (\verb"IO") data types,
+\item From a logical perspective, one may consider a computational monad as a modality.
+\end{itemize}
+
+\begin{small}
+See:
+\begin{itemize}
+\item Eugenio Moggi. Notions of computation and monads, 1991
+\end{itemize}
+\end{small}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Functors and monads in functional programming}
+
+We start with the Haskell type class called \verb"Functor".
+\begin{minted}{haskell}
+class Functor (f :: * -> *) where
+  fmap :: (a -> b) -> f a -> f b
+\end{minted}
+This type class reflects (roughly) the categorical functor. That allows one to carry a function of type $a \to b$ through a parametrised data type such as the list type.
+
+The type class \verb"Monad" extends \verb"Functor" with \verb"return" and \verb"(>>=)":
+\begin{minted}{haskell}
+class Functor m => Monad m where
+  return :: a -> m a
+  (>>=) :: m a -> (a -> m b) -> m b
+\end{minted}
+\onslide<2->{
+\begin{small}
+\begin{itemize}
+\item A monad provides a uniform tool for such computations such as computation with a mutable state, many-valued computation, side effect input-output computation, etc.
+\item That is, all these computations are designed uniformly as ``pipelines''.
+\item Side effects are isolated within a monad and the relevant ``effected'' code is purely functional.
+\end{itemize}
+\end{small}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Monads logically and type-theoretically}
+Logically, monads (over CCCs) are axiomatised via lax logic, intuitionistic modal logic of the following form:
+\begin{itemize}
+\item IPC axioms
+\item $\bigcirc (\varphi \to \psi) \to (\bigcirc \varphi \to \bigcirc \psi)$
+\item $\bigcirc \bigcirc \varphi \to \bigcirc \psi$
+\item $\varphi \to \bigcirc \varphi$
+\item From $\varphi \to \psi$ and $\varphi$ infer $\psi$.
+\end{itemize}
+One can also think of $\bigcirc$ as a geometric modality, or a Lawvere-Tierney topology, but lax logic is known to be complete w.r.t. elementary sites.
+
+\onslide<2->{
+The intuitionistic epistemic logic ${\bf IEL}^{-}$ is the lax logic without the density axiom. It has been introduced by Artemov and Protopopescu to analyse the notion of belief within the BHK semantics. In particular, the axiom $\varphi \to \bigcirc \varphi$ claims that a rational agent believes in constructively proved statements.
+}
+
+\onslide<3->{
+\begin{small}
+Some references:
+\begin{itemize}
+\item Sergei Artemov and Tudor Protopopescu. Intuitionistic epistemic logic, 2016.
+\item Robert Goldblatt. Grothendieck Topology as Geometric Modality, 1981.
+\item Timothy Williamson. On intuitionistic modal epistemic logic, 1992.
+\end{itemize}
+\end{small}
+}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{${\bf IEL}^{-}$ computationally}
+
+Despite being introduced for the phisophical purposes of formal epistemology, ${\bf IEL}^{-}$ also admit interpretation in terms of the type class from Haskell called \verb"Applicative":
+\begin{minted}{haskell}
+class Functor f => Applicative f where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+\end{minted}
+
+This class is about:
+\begin{itemize}
+\item Generalisation of \verb"Functor" for functions of arbitrary arity,
+\item Applicative is a weaker version of monadic computation where elements of a pipeline do not depend on one another.
+\item Used in practical parsing libraries
+\end{itemize}
+
+\onslide<2->{
+\begin{small}
+See
+\begin{itemize}
+\item Conor McBride and Ross Paterson. Applicative programming with effects, 2008.
+\end{itemize}
+\end{small}
+}
 \end{frame}
 
 \begin{frame}
 \frametitle{The definition of the type theory}
 
-The modal lambda calculus $\lambda_{{\bf IEL}^{-}}$ is axiomatised with the following inference rules.
+The modal lambda calculus $\lambda_{{\bf IEL}^{-}}$ is axiomatised with the following inference rules. Strictly speaking, it is Curry-Howard isomorphic to the fragment of ${\bf IEL}^{-}$ with $\to$, $\land$ and $\bigcirc$.
 
 \begin{center}
   \begin{prooftree}
@@ -558,14 +678,19 @@ Some references:
 \begin{frame}
 \frametitle{Kripke-Joyal semantics: handwaving motivation}
 
-
+\begin{itemize}
+\item Cover semantics is based on the notion of local truth in topological/topos-theoretic terms.
+\item Informally, a statement $\varphi$ is true at $X$, where $X$ is, say, an open set, if there exists an open cover of $X$ such that $\varphi$ is true at each member of it.
+\item An example of local truth in topology is local equality or being constant (for continuous functions).
+\item Such notions also arise essentially from presheaf topoi, but we are going to deal with a slighlty simpler kind of structures that allow representing locales.
+\end{itemize}
 
 \end{frame}
 
 \begin{frame}
 \frametitle{Some background: nuclei and prenuclei}
 
-A \emph{prenucleus} on a Heyting algebra is a monotone inflationary map that distibutes over finite infima, whereas a \emph{nucleus} is an idempotent prenucleus.
+A \emph{prenucleus} on a Heyting algebra is a monotone inflationary map that distibutes over finite infima, whereas a \emph{nucleus} is an idempotent prenucleus. If $\mathcal{H}$ is a (locale) Heyting algebra and $j$ is prenucleus, then $(\mathcal{H}, j)$ is a (localic) prenuclear algebra.
 
 (Pre)nuclei are about:
 \begin{itemize}
@@ -580,7 +705,6 @@ Some examples of nuclei (and then prenuclei):
 \item Let $\mathcal{H}$ be a Heyting algebra, then an operator $j : \mathcal{H} \to \mathcal{H}$ such that $j : a \mapsto \neg \neg a$ is a nucleus,
 \item More generally, an operator $j : \mathcal{H} \to \mathcal{H}$ s.t. $j : a \mapsto (b \to a) \to a$ is a nucleus on $\mathcal{H}$,
 \item Actually, one can think of the ${\bf IEL}^{-}$ modality as a kind of a prenuclear operator,
-\item We will see a couple of more examples of nuclei further.
 \end{itemize}}
 \onslide<3->{
 \begin{small}
@@ -608,7 +732,7 @@ Let $\mathcal{P} = (P, \leq)$ be a poset, then a cover scheme is a tuple $\mathc
 \onslide<2->{
 An important point, an operator $j : 2^\mathcal{P} \to 2^\mathcal{P}$:
 \begin{center}
-$j A = \{ x \in \mathcal{P} \: | \: \exists C \subseteq \mathcal{P} \: C \in \operatorname{Cov}(x) \: \& \: C \subseteq A\}$
+$j A = \{ x \in \mathcal{P} \: | \: \exists C \subseteq A \: C \in \operatorname{Cov}(x) \}$
 \end{center}
 is a nucleus on a locale $\operatorname{Up}(\mathcal{P})$, so $j$-closed upward closed subsets of $\mathcal{P}$ form a sublocale of $\operatorname{Up}(\mathcal{P})$. Moreover, every locale is representable as a locale of localised subsets of some cover system (that we shall denote as $\operatorname{Loc}(\mathcal{C})$).}
 
@@ -678,12 +802,47 @@ With each formula we can associate its truth set $[\![\varphi]\!]_{\mathcal{M}} 
 \item $[\![\exists v \varphi]\!]_{\mathcal{M}} = j (\bigcup \limits_{u \in U} [\![\varphi(v := u)]\!]_{\mathcal{M}})$
 \end{itemize}
 
-\begin{theorem} [Cover scheme analogue of Goedel completeness]
+\begin{theorem} [Cover scheme analogue of Goedel completeness] (Goldblatt 2011)
 $IPL \vdash \varphi$ iff $\mathcal{M} \Vdash \varphi$ or, equivalently, $[\![\varphi]\!]_{\mathcal{M}} = \top$ for any model $\mathcal{M}$.
 \end{theorem}
 
 The proof is based on embedding the Lindenbaum-Tarski algebra of $IPL$ to a locale, which is isomorphic to the locale of localised upsets of some cover scheme.
 
+\end{frame}
+
+\begin{frame}
+
+Intuitively, the ${\bf QIEL}^{-}$ (shorthand for ``quantified ${\bf QIEL}^{-}$'') are about localic prenuclear algebras in terms of locales. But what cover schemes for ${\bf QIEL}^{-}$ look like?
+
+\onslide<2->{
+Let $\mathcal{C} = (\mathcal{P}, \operatorname{Cov})$ be a cover scheme and $R$ a binary relation of the carrier of $\mathcal{P}$. A structure $(\mathcal{P}, \operatorname{Cov}, R)$ is an ${\bf IEL}^{-}$-cover scheme if the following holds:
+\begin{itemize}
+\item (Confluence)
+
+If $x R y$ and $x \leq z$, then there exists $w$ such that $y \leq w$ and $z R w$,
+
+\item (Modal localisation)
+
+If there exists an $x$-cover included to $R(X)$, then there exists $y$ such that $x R y$ and there exists $y$-cover included to $X$
+
+\item $R$ is serial
+
+\item If $x R y$ and $x R z$, then there exists $w \geq y, z$ such that $x R w$
+
+\item $x R y$ implies there exists $z \geq y$ such that $x R z$ and $x \geq z$
+\end{itemize}
+}
+\onslide<3->{
+A \emph{modal cover scheme model} is a model on an ${\bf IEL}^{-}$-cover scheme with the following truth condition for $\bigcirc$:
+\begin{itemize}
+\item $\mathcal{M}, x \Vdash \bigcirc \varphi$ iff there exists $y \in R(x)$ s.t. $\mathcal{M}, y \Vdash \varphi$.
+\end{itemize}
+
+Or, in terms of truth sets,
+\begin{itemize}
+\item $[\![\bigcirc \varphi]\!] = R([\![\varphi]\!])$
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
