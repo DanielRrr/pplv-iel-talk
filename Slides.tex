@@ -224,7 +224,7 @@ class Functor m => Monad m where
 \begin{itemize}
 \item A monad provides a uniform tool for such computations such as computation with a mutable state, many-valued computation, side effect input-output computation, etc.
 \item That is, all these computations are designed uniformly as ``pipelines''.
-\item Side effects are isolated within a monad and the relevant ``effected'' code is purely functional.
+\item Side effects are isolated within a monad and code with ``side-effects'' is purely functional.
 \end{itemize}
 \end{small}
 }
@@ -696,6 +696,7 @@ Some references:
 \item Informally, a statement $\varphi$ is true at $X$, where $X$ is, say, an open set, if there exists an open cover of $X$ such that $\varphi$ is true at each member of it.
 \item An example of local truth in topology is local equality or the property of being constant (for continuous functions).
 \item Such notions also arise essentially from presheaf topoi, but we are going to deal with a slighlty simpler kind of structures that allow representing locales.
+\item Here, intuitionistic logic plays the role of internal logic of topoi (the Mitchell-Bénabou language).
 \end{itemize}
 
 \onslide<2->{
@@ -774,7 +775,7 @@ See:
 \begin{frame}
 \frametitle{Intuitionistic predicate logics}
 
-In this section, we consider one-sorted first-order language with no function symbols. Intuitionistic predicate logic is defined standardly with the following axiom schemes and rules:
+In this section, we consider one-sorted first-order language with no function symbols and constants. Intuitionistic predicate logic is defined standardly with the following axiom schemes and rules:
 \begin{enumerate}
   \item $\varphi \to (\psi \to \varphi)$
   \item $(\varphi \to (\psi \to \theta)) \to ((\varphi \to \psi) \to (\varphi \to \theta))$
@@ -783,8 +784,8 @@ In this section, we consider one-sorted first-order language with no function sy
   \item $\varphi_i \to \varphi_1 \lor \varphi_2$, for $i = 1,2$,
   \item $(\varphi \to \theta) \to ((\psi \to \theta) \to (\varphi \lor \psi \to \theta))$
   \item $\bot \to \varphi$,
-  \item $\forall x \varphi \to \varphi (t/x)$,
-  \item $\varphi (t/x) \to \exists x \varphi$,
+  \item $\forall x \varphi \to \varphi (w/x)$,
+  \item $\varphi (w/x) \to \exists x \varphi$,
   \item The inference rules are Modus Ponens and Bernays rules.
 \end{enumerate}
 
