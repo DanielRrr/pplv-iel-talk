@@ -270,7 +270,7 @@ class Functor f => Applicative f where
 This class is about:
 \begin{itemize}
 \item Generalisation of \verb"Functor" for functions of arbitrary arity,
-\item Applicative is a weaker version of monadic computation where elements of a pipeline do not depend on one another.
+\item Applicative is a weaker version of monadic computation where elements of a pipeline do not depend on one another generally.
 \item Used in practical parsing libraries
 \end{itemize}
 
@@ -279,6 +279,7 @@ This class is about:
 See
 \begin{itemize}
 \item Conor McBride and Ross Paterson. Applicative programming with effects, 2008.
+\item Haskell library \verb"optparse-applicative" with a framework of parser composing by means of applicative functors, \emph{https://hackage.haskell.org/package/optparse-applicative}
 \end{itemize}
 \end{small}
 }
@@ -496,7 +497,7 @@ Some examples:
 \begin{frame}
 \frametitle{Typed lambda calculi type-theoretically}
 
-Cartesian closed categories allow interpreting intuitionistic type theories using the following scheme:
+CCCs allow interpreting intuitionistic type theories using the following scheme:
 \begin{center}
 $\Gamma \models M : A$ iff there exists an arrow $[\![M]\!] : [\![\Gamma]\!] \to [\![A]\!]$.
 \end{center}
@@ -538,6 +539,15 @@ In particular, simply typed lambda calculus with types $\to$ and $\times$ has th
 \end{prooftree}
 \end{small}
 }
+
+\onslide<2->{
+\begin{small}
+See:
+\begin{itemize}
+\item Samson Abramsky and Nikos Tzevelekos. Introduction to categories and categorical logic, 2011.
+\end{itemize}
+\end{small}
+}
 \end{frame}
 
 \begin{frame}
@@ -564,7 +574,7 @@ From $\varphi \to \psi$ infer $\Box \varphi \to \Box \psi$
 \end{center}
 \end{itemize}
 \onslide<2->{
-Categorically, we have an endofunctor $F : \mathcal{C} \to \mathcal{C}$ with the following natural isomorphisms (this is a \emph{strong monoidal endofunctor}):
+Categorically, we have an endofunctor $F : \mathcal{C} \to \mathcal{C}$ with the following natural isomorphisms (this is a \emph{strong monoidal endofunctor} over a cartesian closed category):
 \begin{itemize}
 \item $m_{A, B} : {\bf F} (A \times B) \cong {\bf F} A \times {\bf F} B$
 \item $u : {\bf F} \mathds{1} \cong \mathds{1}$
@@ -667,9 +677,10 @@ Heyting algebras and locales are about:
 \begin{small}
 Some references:
 \begin{itemize}
-\item Andre Joyal and Myles Tierney. An extension of the Galois theory of Grothendieck, 1984.
 \item Francis Borceux. Handbook of Categorical Algebra: Volume 3, Sheaf Theory, 1994.
 \item Leo Esakia. Heyting algebras: Duality theory, 2019.
+\item Andre Joyal and Myles Tierney. An extension of the Galois theory of Grothendieck, 1984.
+\item Steven Vickers. Topology via Logic, 1989.
 \end{itemize}
 \end{small}
 }
@@ -684,6 +695,17 @@ Some references:
 \item An example of local truth in topology is local equality or being constant (for continuous functions).
 \item Such notions also arise essentially from presheaf topoi, but we are going to deal with a slighlty simpler kind of structures that allow representing locales.
 \end{itemize}
+
+\onslide<2->{
+\begin{small}
+Some references:
+\begin{itemize}
+\item Olivia Caramello. Theories, Sites, Toposes, 2017.
+\item Robert Goldblatt. Topoi: The Categorial Analysis of Logic, 1984.
+\item Saunders MacLane and Ieke Moerdijk. Sheaves in geometry and logic: A first introduction to topos theory, 1992.
+\end{itemize}
+\end{small}
+}
 
 \end{frame}
 
@@ -811,6 +833,7 @@ The proof is based on embedding the Lindenbaum-Tarski algebra of $IPL$ to a loca
 \end{frame}
 
 \begin{frame}
+\frametitle{Modal cover schemes}
 
 Intuitively, the ${\bf QIEL}^{-}$ (shorthand for ``quantified ${\bf QIEL}^{-}$'') are about localic prenuclear algebras in terms of locales. But what cover schemes for ${\bf QIEL}^{-}$ look like?
 
