@@ -129,7 +129,8 @@ This talk is based on the author's master thesis defended at Lomonosov Moscow St
 \item Intuitionistic modality type-theoretically
 \item Type-theoretic approach to intuitionistic belief logic (which is rather about functional programming than beliefs)
 \item Categorical semantics
-\item Kripke-Joyal semantics and modal Heyting algebra representations
+\item Kripke-Joyal semantics and locale representation theory
+\item Semantic analysis of predicate intuitionistic epistemic logic
 \end{enumerate}
 
 \end{frame}
@@ -681,6 +682,7 @@ Some references:
 \item Leo Esakia. Heyting algebras: Duality theory, 2019.
 \item Andre Joyal and Myles Tierney. An extension of the Galois theory of Grothendieck, 1984.
 \item Steven Vickers. Topology via Logic, 1989.
+\item Andre Joyal. A crash course in topos theory: the big picture. (A lecture course available on YouTube)
 \end{itemize}
 \end{small}
 }
@@ -692,7 +694,7 @@ Some references:
 \begin{itemize}
 \item Cover semantics is based on the notion of local truth in topological/topos-theoretic terms.
 \item Informally, a statement $\varphi$ is true at $X$, where $X$ is, say, an open set, if there exists an open cover of $X$ such that $\varphi$ is true at each member of it.
-\item An example of local truth in topology is local equality or being constant (for continuous functions).
+\item An example of local truth in topology is local equality or the property of being constant (for continuous functions).
 \item Such notions also arise essentially from presheaf topoi, but we are going to deal with a slighlty simpler kind of structures that allow representing locales.
 \end{itemize}
 
@@ -889,6 +891,25 @@ These theorems imply the following corollaries:
 \end{enumerate}
 }
 \end{corollary}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Further directions}
+
+\begin{itemize}
+\item It is also of interest to investigate cover semantics for intuitionistic infinitary and geometric logics,
+\item There are also non-trivial open questions posed by Goldblatt related to cover scheme completeness for infinitary and geometric predicate logics based on quantales,
+\item The latter is also could of interest in terms of categorical logic, which could require some non-commutative generalisation of presheaf topoi and Lawvere-Tierney topology (that is, categorical generalisation of quantic nuclei).
+\end{itemize}
+
+\begin{small}
+See:
+\begin{itemize}
+\item Robert Goldblatt. A Kripke-Joyal Semantics for Noncommutative Logic in Quantales, 2006.
+\item I also do some open-source notes about geometric logic in orded to tackle some questions related to non-commutative geometric logics, the notes are available at \url{https://github.com/DanielRrr/geometric-logic}.
+\end{itemize}
+\end{small}
 
 \end{frame}
 
